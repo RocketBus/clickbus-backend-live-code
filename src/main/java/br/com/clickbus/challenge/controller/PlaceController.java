@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Api("places")
 @RestController
 @RequestMapping("places")
+@AllArgsConstructor
 public class PlaceController {
 
     private PlaceService service;

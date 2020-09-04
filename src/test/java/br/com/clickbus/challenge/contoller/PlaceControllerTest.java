@@ -9,12 +9,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,28 +40,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(PlaceController.class)
-public class PlaceControllerTest {
+@ExtendWith(MockitoExtension.class)
+//@WebMvcTest(PlaceController.class)
+class PlaceControllerTest {
 
-    @Autowired
+    //@Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private PlaceService service;
 
-    @Autowired
+    @InjectMocks
+    private PlaceController placeController;
+
     private ObjectMapper objectMapper;
 
     private Place place;
 
     @BeforeEach
     public void setUp() {
+        objectMapper = new ObjectMapper();
         place = Place.of("Butanta", "bt", "Sao Paulo", "SP");
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(placeController)
+                //.addFilters(new CORSFilter())
+                .build();
     }
 
     @Test
-    public void whenFindAllPlacesThenReturnASimpleItem() throws Exception {
+     void whenFindAllPlacesThenReturnASimpleItem() throws Exception {
 
         when(service.findAll()).thenReturn(Collections.singletonList(place));
 
@@ -78,7 +89,7 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenFindByIdThenReturnOk() throws Exception {
+     void whenFindByIdThenReturnOk() throws Exception {
         when(service.findById(1L)).thenReturn(Optional.of(place));
 
         mockMvc.perform(get("/places/{id}", 1L)
@@ -95,7 +106,7 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenFindByIdThenReturnNotFound() throws Exception {
+     void whenFindByIdThenReturnNotFound() throws Exception {
         when(service.findById(1L)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/places/{id}", 1L)
@@ -108,7 +119,7 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenFindByNameThenReturnOk() throws Exception {
+    void whenFindByNameThenReturnOk() throws Exception {
         when(service.findByName("Butanta")).thenReturn(Arrays.asList(place));
 
         mockMvc.perform(get("/places/?name={name}", "Butanta")
@@ -127,7 +138,7 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenFindByNameThenReturnNotFound() throws Exception {
+    void whenFindByNameThenReturnNotFound() throws Exception {
 
         when(service.findByName("Cotia")).thenReturn(Collections.emptyList());
 
@@ -142,7 +153,7 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenSaveThenReturnCreated() throws Exception {
+    void whenSaveThenReturnCreated() throws Exception {
         when(service.save(any(Place.class))).thenReturn(place);
 
         System.out.println(objectMapper.writeValueAsString(place));
@@ -157,9 +168,8 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenSaveInvalidThenReturnBadRequest() throws Exception {
+    void whenSaveInvalidThenReturnBadRequest() throws Exception {
         Place place = Place.of(null, "bt", "Sao Paulo", "SP");
-        when(service.save(any(Place.class))).thenReturn(place);
 
         mockMvc.perform(post("/places")
                 .content(objectMapper.writeValueAsString(place))
@@ -171,11 +181,8 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenEdiWithPlaceInvalidThenReturnBadRequest() throws Exception {
-        when(service.findById(1L)).thenReturn(Optional.of(place));
-
+     void whenEdiWithPlaceInvalidThenReturnBadRequest() throws Exception {
         Place place = Place.of(null, "bt", "Sao Paulo", "SP");
-        when(service.alter(any(Place.class), any(PlaceDTO.class))).thenReturn(place);
 
         mockMvc.perform(put("/places/{id}", "1")
                 .content(objectMapper.writeValueAsString(place))
@@ -187,7 +194,7 @@ public class PlaceControllerTest {
     }
 
     @Test
-    public void whenEdiWithPlaceThenReturnOk() throws Exception {
+     void whenEdiWithPlaceThenReturnOk() throws Exception {
         when(service.findById(1L)).thenReturn(Optional.of(place));
 
         Place place = Place.of("Butanta", "bt", "Sao Paulo", "SP");

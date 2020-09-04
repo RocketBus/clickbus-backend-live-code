@@ -2,12 +2,14 @@ package br.com.clickbus.challenge.dto;
 
 import br.com.clickbus.challenge.entity.Place;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@NoArgsConstructor
 public class PlaceDTO {
 
     @NotNull
