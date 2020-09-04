@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class PlaceServiceTest {
+class PlaceServiceTest {
 
     public static final String NAME_PLACE = "Butanta";
 
@@ -48,7 +47,7 @@ public class PlaceServiceTest {
 
     @Test
     void whenFindAllThenReturnPlaces() {
-        when(repository.findAll()).thenReturn(Arrays.asList(place));
+        when(repository.findAll()).thenReturn(Collections.singletonList(place));
 
         List<Place> placesFound = service.findAll();
 
@@ -64,7 +63,6 @@ public class PlaceServiceTest {
         List<Place> places = service.findAll();
 
         assertTrue(places.isEmpty());
-        assertEquals(0, places.size());
         verify(repository, atLeastOnce()).findAll();
     }
 
@@ -121,7 +119,7 @@ public class PlaceServiceTest {
     }
 
     @Test
-    public void whenAlterPlaceOk() {
+    void whenAlterPlaceOk() {
         String editedName = "Lorem Ipsum";
         PlaceDTO placeDTO = PlaceDTO.of(editedName, place.getSlug(), place.getCity(), place.getState());
         when(repository.save(any(Place.class))).thenReturn(place);
