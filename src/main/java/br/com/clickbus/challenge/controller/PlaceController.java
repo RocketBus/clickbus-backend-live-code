@@ -24,7 +24,6 @@ import javax.validation.Valid;
 @RequestMapping("places")
 public class PlaceController {
 
-    @Autowired
     private PlaceService service;
 
     @PostMapping

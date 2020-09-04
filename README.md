@@ -1,31 +1,21 @@
-# Clickbus Live Coding Challenge
+# Backend Developer Challenge
 
+Esse desafio serve para avaliarmos suas habilidades em construir APIs.
 
-## Dependencies
+# Instruções e requisitos
+Implementar alguns requisitos faltantes na API de places da Clickbus.
 
-This project is built using:
+- Clonar o repositorio
+- Criar uma branch
+- Completar as implementações faltantes, para que os testes passem
+- Implementar testes unitarios para a funcionalidade `PlaceService.findAll`
+- Executar testes manuais
+- Abrir um PR para a master
 
-- Java 8
-- Spring Boot
-- Spring Data
-- Lombok
-- Swagger
-- Junit 5 - H2 to repository tests
-- H2 DataBase
+# Recomendações
+- SOLID
+- Código e commits em english (métodos, classes e variáveis)
 
-## Test End-Points 
-
-- Create:
-    ```curl -X POST http://localhost:8080/place -H 'Content-Type: application/json' -d '{ "name": "Butanta", "slug": "bt", "state": "SP", "city": "Sao Paulo" }'```
-
-- Edit:
-    ```curl -X PUT http://localhost:8080/place/1 -H 'Content-Type: application/json' -d '{ "name": "Cotia", "slug": "bt", "state": "SP", "city": "Sao Paulo" }'```
-
-- Find all:
-    ```curl -X GET http://localhost:8080/place```
-
-- Find by name:
-    ```curl -X GET http://localhost:8080/place/?name={name}```
-
-- Find by id:
-    ```curl -X GET http://localhost:8080/place/{id}```
+# Critérios de avaliação
+- Boas práticas de programação
+- Práticas de VCS

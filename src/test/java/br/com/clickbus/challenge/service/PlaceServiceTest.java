@@ -46,27 +46,6 @@ class PlaceServiceTest {
     }
 
     @Test
-    void whenFindAllThenReturnPlaces() {
-        when(repository.findAll()).thenReturn(Collections.singletonList(place));
-
-        List<Place> placesFound = service.findAll();
-
-        assertEquals(1, placesFound.size());
-        assertEquals(NAME_PLACE, placesFound.get(0).getName());
-        verify(repository, atLeastOnce()).findAll();
-    }
-
-    @Test
-    void whenFindAllReturnListEmpty() {
-        when(repository.findAll()).thenReturn(new ArrayList<>());
-
-        List<Place> places = service.findAll();
-
-        assertTrue(places.isEmpty());
-        verify(repository, atLeastOnce()).findAll();
-    }
-
-    @Test
     void whenFindByIdOk() {
         when(repository.findById(1L)).thenReturn(Optional.of(place));
 
